@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-f27540620154crtx3!_(8!vn&5f)g$e+)i1difrs$51=qtsjks'
 
-DEBUG = os.getenv('DEBUG_MODE', False)
+DEBUG = os.getenv('DEBUG_MODE')
 
 ALLOWED_HOSTS = ['knowledge-testing.herokuapp.com']
 

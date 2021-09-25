@@ -11,7 +11,7 @@ SECRET_KEY = 'django-insecure-f27540620154crtx3!_(8!vn&5f)g$e+)i1difrs$51=qtsjks
 
 DEBUG = os.getenv('DEBUG_MODE')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['knowledge-testing.herokuapp.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

@@ -1,1 +1,1 @@
-web gunicorn helamarket.wsgi:application --log-file -
+web gunicorn config.wsgi:application --log-file -

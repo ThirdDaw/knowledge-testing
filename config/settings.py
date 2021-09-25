@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-f27540620154crtx3!_(8!vn&5f)g$e+)i1difrs$51=qtsjks'
 
-DEBUG = os.getenv('DEBUG_MODE')
+DEBUG = os.getenv('DEBUG_MODE', False)
 
 ALLOWED_HOSTS = ['knowledge-testing.herokuapp.com']
 
@@ -92,7 +92,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

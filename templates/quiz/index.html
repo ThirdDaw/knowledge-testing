@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div>
+    {% for article in article_list %}
+    <div class="card mb-4">
+        <div class="card-header">
+            {{ article.date_pub }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ article.name }}</h5>
+            <p class="card-text">{{ article.text|truncatewords:15 }}</p>
+            <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Read</a>
+        </div>
+        <div class="card-footer text-muted">
+            Tags:
+            {% for tag in article.tags.all %}
+            <a href="{{ tag.get_absolute_url }}">{{ tag.title }}</a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

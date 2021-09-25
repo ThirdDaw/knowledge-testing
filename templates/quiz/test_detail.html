@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+        <div class="modal show" id="modal-warning" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Test "{{ test.name }}" has begun</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        You have {{ test.get_minutes }} for this test.
+                        <br>
+                        Time is already running.
+                        <br>
+                        Good luck.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h1>
+            <span class="badge badge-secondary">{{ test.name }}</span>
+        </h1>
+        <br>
+        <form action="{% url 'test_result' test.category.url test.url %}" method="get">
+            {% for question in test.get_questions %}
+
+                <h2><span class="badge badge-light">{{ question.text }}</span></h2>
+                {% if question.image %}
+                    <h4><span class="badge">Image:</span></h4>
+                    <img src="{{ question.image.url }}" class="img-fluid" alt="Picture">
+                    <br>
+                {% endif %}
+                <ul>
+                    {% for answer in question.get_answers %}
+                        <li class="list-group-item">
+                            <input type="radio" id="{{ answer.id }}" name="{{ question.text }}"
+                                   value="{{ answer.text }}">
+                            <label for="{{ answer.id }}">{{ answer.text }}</label><br>
+                        </li>
+                        {% if answer.image %}
+                            <img src="{{ answer.image.url }}" class="img-fluid" alt="Picture">
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <br>
+
+            {% endfor %}
+            <script>
+                function startTimer(duration, display) {
+                    var timer = duration, minutes, seconds;
+                    setInterval(function () {
+                        minutes = parseInt(timer / 60, 10);
+                        seconds = parseInt(timer % 60, 10);
+
+                        minutes = minutes < 10 ? "0" + minutes : minutes;
+                        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                        display.textContent = minutes + ":" + seconds;
+
+                        if (--timer < 0) {
+                            timer = duration;
+                            document.getElementById("submit-button").click();
+                        }
+                    }, 1000);
+                }
+
+                $(document).ready(function () {
+                    $("#modal-warning").modal('show');
+                });
+
+                window.onload = function () {
+                    document.getElementById("modal-warning");
+                    var testTime = {{ test.time }},
+                        display = document.querySelector('#time');
+                    startTimer(testTime, display);
+                };
+
+                function getUserAnswers() {
+                    var answers = [];
+                    {% for question in test.get_questions %}
+                        var rad = document.getElementsByName('{{ question.text }}');
+                        {#for (var i = 0; i < {{ test.get_questions.count }}; i++)#}
+                        for (var j = 0; j < rad.length; j++) {
+                            if (rad[j].checked) {
+                                answers.push(rad[j].id)
+                            }
+                        }
+                    {% endfor %}
+                    console.log(answers)
+                }
+
+            </script>
+
+            {#        <button onclick="getUserAnswers()">Checker</button>#}
+
+            <div><h4>Time left: <span id="time" class="badge badge-danger">{{ test.get_minutes }}</span> minutes</h4>
+            </div>
+
+            {#        <button onclick="location.href='{% url 'test_result' test.category.url test.url %}'">Submit</button>#}
+            <button type="submit" id="submit-button" class="btn btn-secondary">Submit</button>
+        </form>
+    <br>
+{% endblock content %}

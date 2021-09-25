@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>
+            <span class="badge badge-secondary">{{ category.name }}</span>
+        </h1>
+
+        <br>
+        <ul>
+            {% for test in category.get_tests %}
+                <li class="list-group-item">
+                    <a href="{{ test.get_absolute_url }}"><b>{{ test.name }}</b></a>
+                </li>
+
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}
